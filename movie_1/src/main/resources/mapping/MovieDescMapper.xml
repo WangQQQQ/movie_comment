@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wq.mapper.MovieDescMapper" >
+  <resultMap id="BaseResultMap" type="com.wq.model.MovieDesc" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="movie_name" property="movieName" jdbcType="VARCHAR" />
+    <result column="movie_href" property="movieHref" jdbcType="VARCHAR" />
+    <result column="movie_actors" property="movieActors" jdbcType="VARCHAR" />
+    <result column="movie_img" property="movieImg" jdbcType="VARCHAR" />
+    <result column="crawler_job_url" property="crawlerJobUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, movie_name, movie_href, movie_actors, movie_img, crawler_job_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.wq.model.MovieDescKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_movie_desc
+    where id = #{id,jdbcType=INTEGER}
+      and movie_name = #{movieName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.wq.model.MovieDescKey" >
+    delete from t_movie_desc
+    where id = #{id,jdbcType=INTEGER}
+      and movie_name = #{movieName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wq.model.MovieDesc" >
+    insert into t_movie_desc (id, movie_name, movie_href, 
+      movie_actors, movie_img, crawler_job_url
+      )
+    values (#{id,jdbcType=INTEGER}, #{movieName,jdbcType=VARCHAR}, #{movieHref,jdbcType=VARCHAR}, 
+      #{movieActors,jdbcType=VARCHAR}, #{movieImg,jdbcType=VARCHAR}, #{crawlerJobUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wq.model.MovieDesc" >
+    insert into t_movie_desc
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="movieName != null" >
+        movie_name,
+      </if>
+      <if test="movieHref != null" >
+        movie_href,
+      </if>
+      <if test="movieActors != null" >
+        movie_actors,
+      </if>
+      <if test="movieImg != null" >
+        movie_img,
+      </if>
+      <if test="crawlerJobUrl != null" >
+        crawler_job_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="movieName != null" >
+        #{movieName,jdbcType=VARCHAR},
+      </if>
+      <if test="movieHref != null" >
+        #{movieHref,jdbcType=VARCHAR},
+      </if>
+      <if test="movieActors != null" >
+        #{movieActors,jdbcType=VARCHAR},
+      </if>
+      <if test="movieImg != null" >
+        #{movieImg,jdbcType=VARCHAR},
+      </if>
+      <if test="crawlerJobUrl != null" >
+        #{crawlerJobUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wq.model.MovieDesc" >
+    update t_movie_desc
+    <set >
+      <if test="movieHref != null" >
+        movie_href = #{movieHref,jdbcType=VARCHAR},
+      </if>
+      <if test="movieActors != null" >
+        movie_actors = #{movieActors,jdbcType=VARCHAR},
+      </if>
+      <if test="movieImg != null" >
+        movie_img = #{movieImg,jdbcType=VARCHAR},
+      </if>
+      <if test="crawlerJobUrl != null" >
+        crawler_job_url = #{crawlerJobUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+      and movie_name = #{movieName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wq.model.MovieDesc" >
+    update t_movie_desc
+    set movie_href = #{movieHref,jdbcType=VARCHAR},
+      movie_actors = #{movieActors,jdbcType=VARCHAR},
+      movie_img = #{movieImg,jdbcType=VARCHAR},
+      crawler_job_url = #{crawlerJobUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+      and movie_name = #{movieName,jdbcType=VARCHAR}
+  </update>
+</mapper>
