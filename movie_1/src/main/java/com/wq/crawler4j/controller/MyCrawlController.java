@@ -15,6 +15,9 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
+/**
+ * @author kyrieqing[wangq_0228@163.com]
+ */
 public class MyCrawlController extends CrawlController {
 
 	static final Logger logger = LoggerFactory.getLogger(MyCrawlController.class);

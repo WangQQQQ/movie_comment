@@ -15,7 +15,7 @@ public class MovieServiceImpl implements MovieService {
 	MovieDescMapper movieDescMapper;
 	
 	@Override
-	public int adadMovieDesc(MovieDesc movie) {
+	public int addMovieDesc(MovieDesc movie) {
 		return movieDescMapper.insert(movie);
 	}
 

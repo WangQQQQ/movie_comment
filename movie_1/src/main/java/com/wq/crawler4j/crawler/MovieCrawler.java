@@ -20,6 +20,9 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
+/**
+ * @author kyrieqing[wangq_0228@163.com]
+ */
 public class MovieCrawler extends WebCrawler {
 	private static final Pattern IMAGE_EXTENSIONS = Pattern.compile(".*\\.(bmp|gif|jpg|png)$");
 
@@ -94,7 +97,7 @@ public class MovieCrawler extends WebCrawler {
 				// }
 				// }
 				// movieDesc.setMovieActors(actors.toString());
-				movieService.adadMovieDesc(movieDesc);
+				movieService.addMovieDesc(movieDesc);
 			}
 			// logger.info(movieDetail.getElementsByAttribute("data-searchpingback-elem").attr("href"));;
 

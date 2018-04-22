@@ -4,5 +4,5 @@ import com.wq.model.MovieDesc;
 
 public interface MovieService {
 	
-	int adadMovieDesc(MovieDesc movie);
+	int addMovieDesc(MovieDesc movie);
 }

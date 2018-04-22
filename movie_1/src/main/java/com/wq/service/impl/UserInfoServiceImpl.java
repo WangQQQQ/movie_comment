@@ -7,7 +7,7 @@ import com.wq.mapper.UserInfoMapper;
 import com.wq.model.UserInfo;
 import com.wq.service.UserInfoService;
 
-@Service(value = "movieService")
+@Service(value = "userInfoService")
 public class UserInfoServiceImpl implements UserInfoService {
 
 	
@@ -15,7 +15,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	UserInfoMapper userInfoMapper;
 	
 	@Override
-	public int adadUserInfo(UserInfo userInfo) {
+	public int addUserInfo(UserInfo userInfo) {
 		return userInfoMapper.insert(userInfo);
 	}
 

@@ -4,5 +4,5 @@ import com.wq.model.UserInfo;
 
 public interface UserInfoService {
 	
-	int adadUserInfo(UserInfo userInfo);
+	int addUserInfo(UserInfo userInfo);
 }

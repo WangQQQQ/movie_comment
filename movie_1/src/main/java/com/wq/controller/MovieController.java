@@ -1,4 +1,4 @@
-package com.wq.crawler4j.controller;
+package com.wq.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.wq.crawler4j.controller.MyCrawlController;
 import com.wq.crawler4j.crawler.MovieCrawler;
 import com.wq.service.MovieService;
 
@@ -15,6 +16,9 @@ import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
+/**
+ * @author kyrieqing[wangq_0228@163.com]
+ */
 @Controller
 @RequestMapping(value = "/movieDescCrawler")
 public class MovieController {

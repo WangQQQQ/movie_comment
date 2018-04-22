@@ -1,7 +1,5 @@
 package com.wq.model;
 
-import java.util.List;
-
 public class UserComments {
     @Override
 	public String toString() {

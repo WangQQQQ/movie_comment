@@ -1,0 +1,22 @@
+package com.wq.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.wq.mapper.UserCommentsMapper;
+import com.wq.model.UserComments;
+import com.wq.service.UserCommentsService;
+
+@Service(value = "userCommentsService")
+public class UserCommentsServiceImpl implements UserCommentsService {
+
+	
+	@Autowired
+	UserCommentsMapper userCommentsMapper;
+	
+	@Override
+	public int addUserComments(UserComments userComments) {
+		return userCommentsMapper.insert(userComments);
+	}
+
+}
