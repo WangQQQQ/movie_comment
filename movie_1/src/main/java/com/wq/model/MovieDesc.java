@@ -9,6 +9,8 @@ public class MovieDesc extends MovieDescKey {
 
     private String crawlerJobUrl;
 
+    private String movieTvid;
+
     public String getMovieHref() {
         return movieHref;
     }
@@ -39,5 +41,13 @@ public class MovieDesc extends MovieDescKey {
 
     public void setCrawlerJobUrl(String crawlerJobUrl) {
         this.crawlerJobUrl = crawlerJobUrl == null ? null : crawlerJobUrl.trim();
+    }
+
+    public String getMovieTvid() {
+        return movieTvid;
+    }
+
+    public void setMovieTvid(String movieTvid) {
+        this.movieTvid = movieTvid == null ? null : movieTvid.trim();
     }
 }

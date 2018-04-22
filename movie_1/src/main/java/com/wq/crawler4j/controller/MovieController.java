@@ -16,7 +16,7 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
 @Controller
-@RequestMapping(value = "/MovieDescCrawler")
+@RequestMapping(value = "/movieDescCrawler")
 public class MovieController {
 	private static final Logger logger = LoggerFactory.getLogger(MovieController.class);
 
@@ -26,84 +26,53 @@ public class MovieController {
 	@ResponseBody
 	@RequestMapping(value = "/start", produces = { "application/json;charset=UTF-8" })
 	public String startCraw() throws Exception {
-		this.main();
+		this.start();
 		return "success";
 	}
 
-	public void main() throws Exception {
-		// if (args.length != 2) {
-		// logger.info("Needed parameters: ");
-		// logger.info("\t rootFolder (it will contain intermediate crawl
-		// data)");
-		// logger.info("\t numberOfCralwers (number of concurrent threads)");
-		// return;
-		// }
-
+	public void start() throws Exception {
 		/*
 		 * crawlStorageFolder is a folder where intermediate crawl data is
 		 * stored.
 		 */
-		String crawlStorageFolder = "1";
+		CrawlConfig config1 = new CrawlConfig();
+		CrawlConfig config2 = new CrawlConfig();
 
 		/*
-		 * numberOfCrawlers shows the number of concurrent threads that should
-		 * be initiated for crawling.
+		 * The two crawlers should have different storage folders for their
+		 * intermediate data
 		 */
-		int numberOfCrawlers = 1;
+		config1.setCrawlStorageFolder("crawler1" + "/crawler1");
+		config2.setCrawlStorageFolder("crawler2" + "/crawler2");
 
-		CrawlConfig config = new CrawlConfig();
+		config1.setPolitenessDelay(1000);
+		config2.setPolitenessDelay(2000);
 
-		config.setCrawlStorageFolder(crawlStorageFolder);
+		config1.setMaxPagesToFetch(50);
+		config2.setMaxPagesToFetch(100);
+		
+		config1.setIncludeHttpsPages(true);
+		config2.setIncludeHttpsPages(true);
 
 		/*
-		 * Be polite: Make sure that we don't send more than 1 request per
-		 * second (1000 milliseconds between requests).
+		 * We will use different PageFetchers for the two crawlers.
 		 */
-		config.setPolitenessDelay(1000);
+		PageFetcher pageFetcher1 = new PageFetcher(config1);
+		PageFetcher pageFetcher2 = new PageFetcher(config2);
 
 		/*
-		 * You can set the maximum crawl depth here. The default value is -1 for
-		 * unlimited depth
+		 * We will use the same RobotstxtServer for both of the crawlers.
 		 */
-		config.setMaxDepthOfCrawling(2);
-
-		/*
-		 * You can set the maximum number of pages to crawl. The default value
-		 * is -1 for unlimited number of pages
-		 */
-		config.setMaxPagesToFetch(1000);
-
-		/**
-		 * Do you want crawler4j to crawl also binary data ? example: the
-		 * contents of pdf, or the metadata of images etc
-		 */
-		config.setIncludeBinaryContentInCrawling(false);
-
-		/*
-		 * Do you need to set a proxy? If so, you can use:
-		 * config.setProxyHost("proxyserver.example.com");
-		 * config.setProxyPort(8080);
-		 *
-		 * If your proxy also needs authentication:
-		 * config.setProxyUsername(username); config.getProxyPassword(password);
-		 */
-
-		/*
-		 * This config parameter can be used to set your crawl to be resumable
-		 * (meaning that you can resume the crawl from a previously
-		 * interrupted/crashed crawl). Note: if you enable resuming feature and
-		 * want to start a fresh crawl, you need to delete the contents of
-		 * rootFolder manually.
-		 */
-		config.setResumableCrawling(false);
-
-		/*
-		 * Instantiate the controller for this crawl.
-		 */
-		PageFetcher pageFetcher = new PageFetcher(config);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
-		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
-		MyCrawlController controller = new MyCrawlController(config, pageFetcher, robotstxtServer);
+		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher1);
+
+		MyCrawlController controller1 = new MyCrawlController(config1, pageFetcher1, robotstxtServer, movieService);
+		MyCrawlController controller2 = new MyCrawlController(config2, pageFetcher2, robotstxtServer, movieService);
+
+		String[] crawler1Domains = { "http://list.iqiyi.com/" };
+
+		controller1.setCustomData(crawler1Domains);
+		controller2.setCustomData(crawler1Domains);
 
 		/*
 		 * For each crawl, you need to add some seed urls. These are the first
@@ -111,27 +80,35 @@ public class MovieController {
 		 * which are found in these pages
 		 */
 		for (int i = 1; i <= 14; i++) {
-			controller.addSeed("http://list.iqiyi.com/www/1/-----------2018--11-" + i + "-1-iqiyi--.html");
+			controller1.addSeed("http://list.iqiyi.com/www/1/-----------2018--11-" + i + "-1-iqiyi--.html");
 		}
 		for (int i = 1; i <= 30; i++) {
-			controller.addSeed("http://list.iqiyi.com/www/1/-----------2017--11-" + i + "-1-iqiyi--.html");
-			controller.addSeed("http://list.iqiyi.com/www/1/-----------2016--11-" + i + "-1-iqiyi--.html");
-			controller.addSeed("http://list.iqiyi.com/www/1/-----------2011_2015--11-" + i + "-1-iqiyi--.html");
-			controller.addSeed("http://list.iqiyi.com/www/1/-----------2000_2010--11-" + i + "-1-iqiyi--.html");
-			controller.addSeed("http://list.iqiyi.com/www/1/-----------1990_1999--11-" + i + "-1-iqiyi--.html");
-			controller.addSeed("http://list.iqiyi.com/www/1/-----------1980_1989--11-" + i + "-1-iqiyi--.html");
+			controller1.addSeed("http://list.iqiyi.com/www/1/-----------2017--11-" + i + "-1-iqiyi--.html");
+			controller1.addSeed("http://list.iqiyi.com/www/1/-----------2016--11-" + i + "-1-iqiyi--.html");
+			controller1.addSeed("http://list.iqiyi.com/www/1/-----------2011_2015--11-" + i + "-1-iqiyi--.html");
+			controller2.addSeed("http://list.iqiyi.com/www/1/-----------2000_2010--11-" + i + "-1-iqiyi--.html");
+			controller2.addSeed("http://list.iqiyi.com/www/1/-----------1990_1999--11-" + i + "-1-iqiyi--.html");
+			controller2.addSeed("http://list.iqiyi.com/www/1/-----------1980_1989--11-" + i + "-1-iqiyi--.html");
 		}
 		for (int i = 1; i <= 16; i++) {
-			controller.addSeed("http://list.iqiyi.com/www/1/-----------1964_1979-" + i + "-1-iqiyi--.html");
+			controller2.addSeed("http://list.iqiyi.com/www/1/-----------1964_1979--11-" + i + "-1-iqiyi--.html");
 		}
-		// controller.addSeed("http://www.ics.uci.edu/~lopes/");
-		// controller.addSeed("http://www.ics.uci.edu/~welling/");
 
 		/*
 		 * Start the crawl. This is a blocking operation, meaning that your code
 		 * will reach the line after this only when crawling is finished.
 		 */
-		controller.start(MovieCrawler.class, movieService, numberOfCrawlers, true);
+		logger.info("Crawler1 Seeds counts: " + controller1.getDocIdServer().getDocCount());
+		logger.info("Crawler2 Seeds counts: " + controller2.getDocIdServer().getDocCount());
+
+		controller1.startNonBlocking(MovieCrawler.class, 3);
+		controller2.startNonBlocking(MovieCrawler.class, 2);
+
+		controller1.waitUntilFinish();
+		logger.info("Crawler 1 is fincished.");
+
+		controller2.waitUntilFinish();
+		logger.info("Crawler 2 is finished.");
 	}
 
 }

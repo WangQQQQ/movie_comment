@@ -37,15 +37,12 @@ public class MovieCrawler extends WebCrawler {
 	@Override
 	public boolean shouldVisit(Page referringPage, WebURL url) {
 		String href = url.getURL().toLowerCase();
-		// Ignore the url if it has an extension that matches our defined set of
-		// image extensions.
-		if (IMAGE_EXTENSIONS.matcher(href).matches()) {
-			return false;
-		}
-
-		// Only accept the url if it is in the "www.ics.uci.edu" domain and
-		// protocol is "http".
-		return href.startsWith("http://list.iqiyi.com/www/1/-------------11-1-1-iqiyi--.html");
+//		if (IMAGE_EXTENSIONS.matcher(href).matches()) {
+//			return false;
+//		}
+		
+		//only visit the provided page.
+		return false;
 	}
 
 	/**
@@ -86,6 +83,7 @@ public class MovieCrawler extends WebCrawler {
 				movieDesc.setCrawlerJobUrl(url);
 				movieDesc.setMovieHref(element.getElementsByClass("site-piclist_pic_link").attr("href"));
 				movieDesc.setMovieName(element.getElementsByClass("site-piclist_pic_link").attr("title"));
+				movieDesc.setMovieTvid(element.getElementsByClass("site-piclist_pic_link").attr("data-qidanadd-tvid"));
 				movieDesc.setMovieImg(element.getElementsByAttribute("height").attr("src"));
 				// TODO actors
 				// StringBuilder actors = new StringBuilder();

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wq.mapper.UserCommentsMapper" >
+  <resultMap id="BaseResultMap" type="com.wq.model.UserComments" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="content_id" property="contentId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="INTEGER" />
+    <result column="hot" property="hot" jdbcType="INTEGER" />
+    <result column="playTime" property="playtime" jdbcType="VARCHAR" />
+    <result column="keywords" property="keywords" jdbcType="VARCHAR" />
+    <result column="star_info" property="starInfo" jdbcType="VARCHAR" />
+    <result column="related_star" property="relatedStar" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="VARCHAR" />
+    <result column="suid" property="suid" jdbcType="VARCHAR" />
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, content_id, type, title, content, add_time, hot, playTime, keywords, star_info, 
+    related_star, uid, suid, uname
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_comments
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user_comments
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wq.model.UserComments" >
+    insert into t_user_comments (id, content_id, type, 
+      title, content, add_time, 
+      hot, playTime, keywords, 
+      star_info, related_star, uid, 
+      suid, uname)
+    values (#{id,jdbcType=INTEGER}, #{contentId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{addTime,jdbcType=INTEGER}, 
+      #{hot,jdbcType=INTEGER}, #{playtime,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
+      #{starInfo,jdbcType=VARCHAR}, #{relatedStar,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, 
+      #{suid,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wq.model.UserComments" >
+    insert into t_user_comments
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="contentId != null" >
+        content_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="hot != null" >
+        hot,
+      </if>
+      <if test="playtime != null" >
+        playTime,
+      </if>
+      <if test="keywords != null" >
+        keywords,
+      </if>
+      <if test="starInfo != null" >
+        star_info,
+      </if>
+      <if test="relatedStar != null" >
+        related_star,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="suid != null" >
+        suid,
+      </if>
+      <if test="uname != null" >
+        uname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="contentId != null" >
+        #{contentId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=INTEGER},
+      </if>
+      <if test="hot != null" >
+        #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="playtime != null" >
+        #{playtime,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="starInfo != null" >
+        #{starInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedStar != null" >
+        #{relatedStar,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="suid != null" >
+        #{suid,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null" >
+        #{uname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wq.model.UserComments" >
+    update t_user_comments
+    <set >
+      <if test="contentId != null" >
+        content_id = #{contentId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=INTEGER},
+      </if>
+      <if test="hot != null" >
+        hot = #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="playtime != null" >
+        playTime = #{playtime,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        keywords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="starInfo != null" >
+        star_info = #{starInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedStar != null" >
+        related_star = #{relatedStar,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="suid != null" >
+        suid = #{suid,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null" >
+        uname = #{uname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wq.model.UserComments" >
+    update t_user_comments
+    set content_id = #{contentId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=INTEGER},
+      hot = #{hot,jdbcType=INTEGER},
+      playTime = #{playtime,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      star_info = #{starInfo,jdbcType=VARCHAR},
+      related_star = #{relatedStar,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=VARCHAR},
+      suid = #{suid,jdbcType=VARCHAR},
+      uname = #{uname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

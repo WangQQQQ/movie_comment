@@ -7,6 +7,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.wq.service.MovieService;
+
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
@@ -17,33 +19,21 @@ public class MyCrawlController extends CrawlController {
 
 	static final Logger logger = LoggerFactory.getLogger(MyCrawlController.class);
 
-	public MyCrawlController(CrawlConfig config, PageFetcher pageFetcher, RobotstxtServer robotstxtServer)
-			throws Exception {
+	private MovieService movieService;
+
+	
+	public MyCrawlController(CrawlConfig config, PageFetcher pageFetcher, RobotstxtServer robotstxtServer,
+			MovieService movieService) throws Exception {
 		super(config, pageFetcher, robotstxtServer);
+		this.movieService = movieService;
 	}
 
-	// private static class MyWebCrawlerFactory<T extends WebCrawler>
-	// implements WebCrawlerFactory<T> {
-	// final Class<T> clazz;
-	// final Object serObj;
-	//
-	// MyWebCrawlerFactory(Class<T> clazz, Object serObj) {
-	// this.clazz = clazz;
-	// this.serObj = serObj;
-	// }
-	//
-	// @Override
-	// public T newInstance() throws Exception {
-	// try {
-	// Constructor c = clazz.getConstructor(serObj.getClass());
-	// return (T) c.newInstance(serObj);
-	// } catch (ReflectiveOperationException e) {
-	// throw e;
-	// }
-	// }
-	// }
+	@Override
+	public <T extends WebCrawler> void startNonBlocking(Class<T> clazz, int numberOfCrawlers) {
+		this.start(clazz, numberOfCrawlers, false);
+	}
 
-	public <T extends WebCrawler> void start(Class<T> clazz, Object serObj, final int numberOfCrawlers,
+	public <T extends WebCrawler> void start(Class<T> clazz, final int numberOfCrawlers,
 			boolean isBlocking) {
 
 		try {
@@ -53,8 +43,8 @@ public class MyCrawlController extends CrawlController {
 			final List<T> crawlers = new ArrayList<>();
 
 			for (int i = 1; i <= numberOfCrawlers; i++) {
-				Constructor<T> c = clazz.getConstructor(serObj.getClass());
-				T crawler = (T) c.newInstance(serObj);
+				Constructor<T> c = clazz.getConstructor(movieService.getClass());
+				T crawler = (T) c.newInstance(movieService);
 				Thread thread = new Thread(crawler, "Crawler " + i);
 				crawler.setThread(thread);
 				crawler.init(i, this);
@@ -82,8 +72,8 @@ public class MyCrawlController extends CrawlController {
 									if (!thread.isAlive()) {
 										if (!shuttingDown) {
 											logger.info("Thread {} was dead, I'll recreate it", i);
-											Constructor<T> c = clazz.getConstructor(serObj.getClass());
-											T crawler = (T) c.newInstance(serObj);
+											Constructor<T> c = clazz.getConstructor(movieService.getClass());
+											T crawler = (T) c.newInstance(movieService);
 											thread = new Thread(crawler, "Crawler " + (i + 1));
 											threads.remove(i);
 											threads.add(i, thread);

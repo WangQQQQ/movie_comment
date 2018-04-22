@@ -8,9 +8,10 @@
     <result column="movie_actors" property="movieActors" jdbcType="VARCHAR" />
     <result column="movie_img" property="movieImg" jdbcType="VARCHAR" />
     <result column="crawler_job_url" property="crawlerJobUrl" jdbcType="VARCHAR" />
+    <result column="movie_tvid" property="movieTvid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, movie_name, movie_href, movie_actors, movie_img, crawler_job_url
+    id, movie_name, movie_href, movie_actors, movie_img, crawler_job_url, movie_tvid
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.wq.model.MovieDescKey" >
     select 
@@ -26,11 +27,11 @@
   </delete>
   <insert id="insert" parameterType="com.wq.model.MovieDesc" >
     insert into t_movie_desc (id, movie_name, movie_href, 
-      movie_actors, movie_img, crawler_job_url
-      )
+      movie_actors, movie_img, crawler_job_url, 
+      movie_tvid)
     values (#{id,jdbcType=INTEGER}, #{movieName,jdbcType=VARCHAR}, #{movieHref,jdbcType=VARCHAR}, 
-      #{movieActors,jdbcType=VARCHAR}, #{movieImg,jdbcType=VARCHAR}, #{crawlerJobUrl,jdbcType=VARCHAR}
-      )
+      #{movieActors,jdbcType=VARCHAR}, #{movieImg,jdbcType=VARCHAR}, #{crawlerJobUrl,jdbcType=VARCHAR}, 
+      #{movieTvid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wq.model.MovieDesc" >
     insert into t_movie_desc
@@ -53,6 +54,9 @@
       <if test="crawlerJobUrl != null" >
         crawler_job_url,
       </if>
+      <if test="movieTvid != null" >
+        movie_tvid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -73,6 +77,9 @@
       <if test="crawlerJobUrl != null" >
         #{crawlerJobUrl,jdbcType=VARCHAR},
       </if>
+      <if test="movieTvid != null" >
+        #{movieTvid,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.wq.model.MovieDesc" >
@@ -90,6 +97,9 @@
       <if test="crawlerJobUrl != null" >
         crawler_job_url = #{crawlerJobUrl,jdbcType=VARCHAR},
       </if>
+      <if test="movieTvid != null" >
+        movie_tvid = #{movieTvid,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
       and movie_name = #{movieName,jdbcType=VARCHAR}
@@ -99,7 +109,8 @@
     set movie_href = #{movieHref,jdbcType=VARCHAR},
       movie_actors = #{movieActors,jdbcType=VARCHAR},
       movie_img = #{movieImg,jdbcType=VARCHAR},
-      crawler_job_url = #{crawlerJobUrl,jdbcType=VARCHAR}
+      crawler_job_url = #{crawlerJobUrl,jdbcType=VARCHAR},
+      movie_tvid = #{movieTvid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
       and movie_name = #{movieName,jdbcType=VARCHAR}
   </update>

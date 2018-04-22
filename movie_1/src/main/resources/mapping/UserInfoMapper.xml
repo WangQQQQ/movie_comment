@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wq.mapper.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.wq.model.UserInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="VARCHAR" />
+    <result column="uid_type" property="uidType" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="profile_url" property="profileUrl" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, uid_type, title, uname, gender, icon, profile_url, location
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wq.model.UserInfo" >
+    insert into t_user_info (id, uid, uid_type, 
+      title, uname, gender, 
+      icon, profile_url, location
+      )
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{uidType,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{icon,jdbcType=VARCHAR}, #{profileUrl,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wq.model.UserInfo" >
+    insert into t_user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="uidType != null" >
+        uid_type,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="uname != null" >
+        uname,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="profileUrl != null" >
+        profile_url,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="uidType != null" >
+        #{uidType,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null" >
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="profileUrl != null" >
+        #{profileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wq.model.UserInfo" >
+    update t_user_info
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="uidType != null" >
+        uid_type = #{uidType,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null" >
+        uname = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="profileUrl != null" >
+        profile_url = #{profileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wq.model.UserInfo" >
+    update t_user_info
+    set uid = #{uid,jdbcType=VARCHAR},
+      uid_type = #{uidType,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      uname = #{uname,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      profile_url = #{profileUrl,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
