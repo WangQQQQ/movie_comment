@@ -1,15 +1,7 @@
 package com.wq.model;
 
 public class UserComments {
-    @Override
-	public String toString() {
-		return "UserComments [id=" + id + ", contentId=" + contentId + ", type=" + type + ", title=" + title
-				+ ", content=" + content + ", addTime=" + addTime + ", hot=" + hot + ", playtime=" + playtime
-				+ ", keywords=" + keywords + ", starInfo=" + starInfo + ", relatedStar=" + relatedStar + ", uid=" + uid
-				+ ", suid=" + suid + ", uname=" + uname + ", userInfo=" + userInfo + "]";
-	}
-
-	private Integer id;
+    private Integer id;
 
     private String contentId;
 
@@ -29,8 +21,6 @@ public class UserComments {
 
     private String starInfo;
 
-    private String relatedStar;
-
     private String uid;
 
     private String suid;
@@ -39,6 +29,14 @@ public class UserComments {
     
     private UserInfo userInfo;
     
+    @Override
+	public String toString() {
+		return "UserComments [id=" + id + ", contentId=" + contentId + ", type=" + type + ", title=" + title
+				+ ", content=" + content + ", addTime=" + addTime + ", hot=" + hot + ", playtime=" + playtime
+				+ ", keywords=" + keywords + ", starInfo=" + starInfo + ", uid=" + uid + ", suid=" + suid + ", uname="
+				+ uname + ", userInfo=" + userInfo + "]";
+	}
+
 	public UserInfo getUserInfo() {
 		return userInfo;
 	}
@@ -125,14 +123,6 @@ public class UserComments {
 
     public void setStarInfo(String starInfo) {
         this.starInfo = starInfo == null ? null : starInfo.trim();
-    }
-
-    public String getRelatedStar() {
-        return relatedStar;
-    }
-
-    public void setRelatedStar(String relatedStar) {
-        this.relatedStar = relatedStar == null ? null : relatedStar.trim();
     }
 
     public String getUid() {

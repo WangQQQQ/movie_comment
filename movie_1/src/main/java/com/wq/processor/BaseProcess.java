@@ -2,6 +2,8 @@ package com.wq.processor;
 
 import java.net.HttpURLConnection;
 
+import org.mybatis.spring.SqlSessionTemplate;
+
 public abstract class BaseProcess{
 
 	//aiqiyi side movie id
@@ -11,7 +13,9 @@ public abstract class BaseProcess{
 	
 	protected HttpURLConnection urlConn;
 	
-	public BaseProcess(String tvid, int pageCount) {
+	protected SqlSessionTemplate sqlSessionTemplate;
+	
+	public BaseProcess(String tvid, int pageCount, SqlSessionTemplate sqlSessionTemplate) {
 		this.tvid=tvid;
 		this.pageCount=pageCount;
 	}

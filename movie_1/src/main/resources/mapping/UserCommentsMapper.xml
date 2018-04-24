@@ -12,14 +12,13 @@
     <result column="playTime" property="playtime" jdbcType="VARCHAR" />
     <result column="keywords" property="keywords" jdbcType="VARCHAR" />
     <result column="star_info" property="starInfo" jdbcType="VARCHAR" />
-    <result column="related_star" property="relatedStar" jdbcType="VARCHAR" />
     <result column="uid" property="uid" jdbcType="VARCHAR" />
     <result column="suid" property="suid" jdbcType="VARCHAR" />
     <result column="uname" property="uname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, content_id, type, title, content, add_time, hot, playTime, keywords, star_info, 
-    related_star, uid, suid, uname
+    uid, suid, uname
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -35,13 +34,13 @@
     insert into t_user_comments (id, content_id, type, 
       title, content, add_time, 
       hot, playTime, keywords, 
-      star_info, related_star, uid, 
-      suid, uname)
+      star_info, uid, suid, 
+      uname)
     values (#{id,jdbcType=INTEGER}, #{contentId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{addTime,jdbcType=INTEGER}, 
       #{hot,jdbcType=INTEGER}, #{playtime,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
-      #{starInfo,jdbcType=VARCHAR}, #{relatedStar,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, 
-      #{suid,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR})
+      #{starInfo,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{suid,jdbcType=VARCHAR}, 
+      #{uname,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wq.model.UserComments" >
     insert into t_user_comments
@@ -75,9 +74,6 @@
       </if>
       <if test="starInfo != null" >
         star_info,
-      </if>
-      <if test="relatedStar != null" >
-        related_star,
       </if>
       <if test="uid != null" >
         uid,
@@ -120,9 +116,6 @@
       <if test="starInfo != null" >
         #{starInfo,jdbcType=VARCHAR},
       </if>
-      <if test="relatedStar != null" >
-        #{relatedStar,jdbcType=VARCHAR},
-      </if>
       <if test="uid != null" >
         #{uid,jdbcType=VARCHAR},
       </if>
@@ -164,9 +157,6 @@
       <if test="starInfo != null" >
         star_info = #{starInfo,jdbcType=VARCHAR},
       </if>
-      <if test="relatedStar != null" >
-        related_star = #{relatedStar,jdbcType=VARCHAR},
-      </if>
       <if test="uid != null" >
         uid = #{uid,jdbcType=VARCHAR},
       </if>
@@ -190,7 +180,6 @@
       playTime = #{playtime,jdbcType=VARCHAR},
       keywords = #{keywords,jdbcType=VARCHAR},
       star_info = #{starInfo,jdbcType=VARCHAR},
-      related_star = #{relatedStar,jdbcType=VARCHAR},
       uid = #{uid,jdbcType=VARCHAR},
       suid = #{suid,jdbcType=VARCHAR},
       uname = #{uname,jdbcType=VARCHAR}

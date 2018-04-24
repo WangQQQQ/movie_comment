@@ -10,14 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import javax.annotation.Resource;
-
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.wq.mapper.UserCommentsMapper;
+import com.wq.mapper.UserInfoMapper;
 import com.wq.model.UserComments;
 import com.wq.service.UserCommentsService;
 import com.wq.service.UserInfoService;
@@ -25,7 +27,6 @@ import com.wq.service.UserInfoService;
 /**
  * @author kyrieqing[wangq_0228@163.com]
  */
-@Resource
 public class CommentsCollectProcess extends BaseProcess implements Callable<Integer> {
 	private static final Logger logger = LoggerFactory.getLogger(CommentsCollectProcess.class);
 
@@ -34,19 +35,16 @@ public class CommentsCollectProcess extends BaseProcess implements Callable<Inte
 	private int rowCount = 0;
 
 	List<UserComments> userComments;
-	// private URL url = new
-	// URL("http://api-t.iqiyi.com/qx_api/comment/get_video_comments?albumid=761013000&categoryid=1&cb=fnsucc&need_subject=true&need_total=1&page=7&page_size=200&qitan_comment_type=1&qitancallback=fnsucc&qitanid=38215298&qypid=01010011010000000000&sort=hot&t=1524381676819&tvid=761013000");
 
-	@Autowired
-	UserCommentsService userCommentsService;
+	private UserCommentsMapper commentMapper;
+	
+	private UserInfoMapper userInfoMapper;
 
-	@Autowired
-	UserInfoService userInfoService;
+	private SqlSession session;
 
-	public CommentsCollectProcess(String tvid, int pageCount) {
-		super(tvid, pageCount);
-		urlConnList = new ArrayList<HttpURLConnection>();
-		userComments = new ArrayList<UserComments>();
+	public CommentsCollectProcess(String tvid, int pageCount, SqlSessionTemplate sqlSessionTemplate) {
+		super(tvid, pageCount,sqlSessionTemplate);
+		this.sqlSessionTemplate=sqlSessionTemplate;
 	}
 
 	@Override
@@ -61,12 +59,18 @@ public class CommentsCollectProcess extends BaseProcess implements Callable<Inte
 
 	@Override
 	protected void init() {
+		urlConnList = new ArrayList<HttpURLConnection>();
+		userComments = new ArrayList<UserComments>();
+		session = sqlSessionTemplate.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
+
+		commentMapper = session.getMapper(UserCommentsMapper.class);
+		userInfoMapper = session.getMapper(UserInfoMapper.class);
 		try {
 			for (int i = 1; i <= pageCount; i++) {
 				URL url = new URL(
-						"http:api-t.iqiyi.com/qx_api/comment/get_video_comments?albumid=761013000&categoryid=1&cb=fnsucc&need_subject=true&need_total=1&page="
+						"http://api-t.iqiyi.com/qx_api/comment/get_video_comments?albumid=761013000&categoryid=1&cb=fnsucc&need_subject=true&need_total=1&page="
 								+ i
-								+ "&page_size=200&qitan_comment_type=1&qitancallback=fnsucc&qitanid=38215298&qypid=01010011010000000000&sort=hot&t=1524381676819&tvid="
+								+ "&page_size=40&qitan_comment_type=1&qitancallback=fnsucc&qitanid=38215298&qypid=01010011010000000000&sort=hot&t=1524381676819&tvid="
 								+ tvid);
 				urlConn = (HttpURLConnection) url.openConnection();
 				urlConn.setDoOutput(true);
@@ -103,10 +107,24 @@ public class CommentsCollectProcess extends BaseProcess implements Callable<Inte
 					// !!!warning, aiqiyi get_video_comments api return one line
 					// only;
 					if ((line = reader.readLine()) != null) {
+						if ("{\"code\":\"B00003\",\"data\":\"\",\"msg\":\"\"}".equals(line)) {
+							System.out.println("Error B00003............");
+						}
 						line = line.substring(line.indexOf("\"comments\":") + 11, line.indexOf(",\"count\""));
-						List<UserComments> comments = JSON.parseObject(line, new TypeReference<List<UserComments>>() {
+						List<UserComments> comments = JSON.parseObject(line.replaceAll("[\\ud800\\udc00-\\udbff\\udfff\\ud800-\\udfff]", "*"), new TypeReference<List<UserComments>>() {
 						});
-						userComments.addAll(comments);
+						int i = 0;
+						for (UserComments userCmomment : comments) {
+							commentMapper.insert(userCmomment);
+							userInfoMapper.insert(userCmomment.getUserInfo());
+							rowCount++;
+							i++;
+							if ((i > 0 && i % 1000 == 0) || i == comments.size()) {
+								session.commit();
+							}
+//							userCommentsService.addUserComments(userCmomment);
+//							userInfoService.addUserInfo(userCmomment.getUserInfo());
+						}
 					}
 					reader.close();
 					inputStream.close();
@@ -115,6 +133,7 @@ public class CommentsCollectProcess extends BaseProcess implements Callable<Inte
 				}
 			}
 		} catch (IOException e) {
+			session.rollback();
 			logger.error("error while get response from aiqiyi get_video_comments api: " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -123,10 +142,8 @@ public class CommentsCollectProcess extends BaseProcess implements Callable<Inte
 	@Override
 	protected void finish() {
 		logger.info("going to insert UserComments and UserInfo to database, movie id : " + tvid);
-		for (UserComments userComment : userComments) {
-			userCommentsService.addUserComments(userComment);
-			userInfoService.addUserInfo(userComment.getUserInfo());
-		}
+		
+		//TODO fail url connection store database and prepare to recall;
 		logger.info("insert finish...");
 	}
 
