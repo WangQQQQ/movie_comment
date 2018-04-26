@@ -2,6 +2,9 @@ package com.wq.mapper;
 
 import com.wq.model.UserComments;
 
+/**
+ * @author kyrieqing[wangq_0228@163.com]
+ */
 public interface UserCommentsMapper {
     int deleteByPrimaryKey(Integer id);
 

@@ -1,5 +1,8 @@
 package com.wq.model;
 
+/**
+ * @author kyrieqing[wangq_0228@163.com]
+ */
 public class MovieDesc extends MovieDescKey {
     private String movieHref;
 

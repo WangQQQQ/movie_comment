@@ -7,6 +7,9 @@ import com.wq.mapper.MovieDescMapper;
 import com.wq.model.MovieDesc;
 import com.wq.service.MovieService;
 
+/**
+ * @author kyrieqing[wangq_0228@163.com]
+ */
 @Service(value = "movieService")
 public class MovieServiceImpl implements MovieService {
 

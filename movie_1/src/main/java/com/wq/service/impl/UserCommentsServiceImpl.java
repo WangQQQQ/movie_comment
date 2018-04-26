@@ -7,6 +7,9 @@ import com.wq.mapper.UserCommentsMapper;
 import com.wq.model.UserComments;
 import com.wq.service.UserCommentsService;
 
+/**
+ * @author kyrieqing[wangq_0228@163.com]
+ */
 @Service(value = "userCommentsService")
 public class UserCommentsServiceImpl implements UserCommentsService {
 

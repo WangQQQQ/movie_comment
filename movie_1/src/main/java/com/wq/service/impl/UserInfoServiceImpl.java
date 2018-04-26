@@ -7,6 +7,9 @@ import com.wq.mapper.UserInfoMapper;
 import com.wq.model.UserInfo;
 import com.wq.service.UserInfoService;
 
+/**
+ * @author kyrieqing[wangq_0228@163.com]
+ */
 @Service(value = "userInfoService")
 public class UserInfoServiceImpl implements UserInfoService {
 

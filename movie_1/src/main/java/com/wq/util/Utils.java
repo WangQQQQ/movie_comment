@@ -13,6 +13,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.wq.model.UserComments;
 
+/**
+ * @author kyrieqing[wangq_0228@163.com]
+ */
 @Component
 public class Utils {
 

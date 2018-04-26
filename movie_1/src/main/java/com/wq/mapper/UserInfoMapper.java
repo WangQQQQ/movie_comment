@@ -2,6 +2,9 @@ package com.wq.mapper;
 
 import com.wq.model.UserInfo;
 
+/**
+ * @author kyrieqing[wangq_0228@163.com]
+ */
 public interface UserInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
