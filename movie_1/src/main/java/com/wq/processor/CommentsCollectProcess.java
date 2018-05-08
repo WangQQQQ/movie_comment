@@ -72,7 +72,7 @@ public class CommentsCollectProcess extends BaseProcess implements Callable<Inte
 								+ i
 								+ "&page_size=40&qitan_comment_type=1&qitancallback=fnsucc&qitanid=38215298&qypid=01010011010000000000&sort=hot&t=1524381676819&tvid="
 								+ tvid);
-				urlConn = (HttpURLConnection) url.openConnection();
+				HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
 				urlConn.setDoOutput(true);
 				urlConn.setDoInput(true);
 				urlConn.setUseCaches(false);
@@ -104,22 +104,25 @@ public class CommentsCollectProcess extends BaseProcess implements Callable<Inte
 					String line = "";
 					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-					// !!!warning, aiqiyi get_video_comments api return one line
-					// only;
+					/**
+					 * !!!warning, aiqiyi get_video_comments api return one line only;
+					 */
 					if ((line = reader.readLine()) != null) {
 						if ("{\"code\":\"B00003\",\"data\":\"\",\"msg\":\"\"}".equals(line)) {
-							System.out.println("Error B00003............");
+							logger.info("Error B00003............");
 						}
 						line = line.substring(line.indexOf("\"comments\":") + 11, line.indexOf(",\"count\""));
-						List<UserComments> comments = JSON.parseObject(line.replaceAll("[\\ud800\\udc00-\\udbff\\udfff\\ud800-\\udfff]", "*"), new TypeReference<List<UserComments>>() {
+						
+						//replace emoji with #
+						List<UserComments> comments = JSON.parseObject(line.replaceAll("[\\ud800\\udc00-\\udbff\\udfff\\ud800-\\udfff]", "#"), new TypeReference<List<UserComments>>() {
 						});
-						int i = 0;
 						for (UserComments userCmomment : comments) {
 							commentMapper.insert(userCmomment);
 							userInfoMapper.insert(userCmomment.getUserInfo());
 							rowCount++;
-							i++;
-							if ((i > 0 && i % 1000 == 0) || i == comments.size()) {
+							
+							//per 1000 rows commit.
+							if ((rowCount > 0 && rowCount % 1000 == 0) || rowCount == comments.size()) {
 								session.commit();
 							}
 //							userCommentsService.addUserComments(userCmomment);
@@ -141,6 +144,9 @@ public class CommentsCollectProcess extends BaseProcess implements Callable<Inte
 
 	@Override
 	protected void finish() {
+		urlConnList = null;
+		userComments = null;
+		session = null;
 		logger.info("going to insert UserComments and UserInfo to database, movie id : " + tvid);
 		
 		//TODO fail url connection store database and prepare to recall;

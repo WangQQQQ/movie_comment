@@ -1,18 +1,16 @@
 package com.wq.mapper;
 
 import com.wq.model.UserComments;
+import com.wq.model.UserCommentsKey;
 
-/**
- * @author kyrieqing[wangq_0228@163.com]
- */
 public interface UserCommentsMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(UserCommentsKey key);
 
     int insert(UserComments record);
 
     int insertSelective(UserComments record);
 
-    UserComments selectByPrimaryKey(Integer id);
+    UserComments selectByPrimaryKey(UserCommentsKey key);
 
     int updateByPrimaryKeySelective(UserComments record);
 

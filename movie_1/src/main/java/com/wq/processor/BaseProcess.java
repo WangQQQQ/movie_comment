@@ -11,8 +11,6 @@ public abstract class BaseProcess{
 	
 	protected int pageCount;
 	
-	protected HttpURLConnection urlConn;
-	
 	protected SqlSessionTemplate sqlSessionTemplate;
 	
 	public BaseProcess(String tvid, int pageCount, SqlSessionTemplate sqlSessionTemplate) {

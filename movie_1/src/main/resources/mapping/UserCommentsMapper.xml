@@ -3,7 +3,7 @@
 <mapper namespace="com.wq.mapper.UserCommentsMapper" >
   <resultMap id="BaseResultMap" type="com.wq.model.UserComments" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="content_id" property="contentId" jdbcType="VARCHAR" />
+    <id column="content_id" property="contentId" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
@@ -15,32 +15,35 @@
     <result column="uid" property="uid" jdbcType="VARCHAR" />
     <result column="suid" property="suid" jdbcType="VARCHAR" />
     <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="tvid" property="tvid" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, content_id, type, title, content, add_time, hot, playTime, keywords, star_info, 
-    uid, suid, uname
+    uid, suid, uname, tvid
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.wq.model.UserCommentsKey" >
     select 
     <include refid="Base_Column_List" />
     from t_user_comments
     where id = #{id,jdbcType=INTEGER}
+      and content_id = #{contentId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="com.wq.model.UserCommentsKey" >
     delete from t_user_comments
     where id = #{id,jdbcType=INTEGER}
+      and content_id = #{contentId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.wq.model.UserComments" >
     insert into t_user_comments (id, content_id, type, 
       title, content, add_time, 
       hot, playTime, keywords, 
       star_info, uid, suid, 
-      uname)
+      uname, tvid)
     values (#{id,jdbcType=INTEGER}, #{contentId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
       #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{addTime,jdbcType=INTEGER}, 
       #{hot,jdbcType=INTEGER}, #{playtime,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
       #{starInfo,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{suid,jdbcType=VARCHAR}, 
-      #{uname,jdbcType=VARCHAR})
+      #{uname,jdbcType=VARCHAR}, #{tvid,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wq.model.UserComments" >
     insert into t_user_comments
@@ -84,6 +87,9 @@
       <if test="uname != null" >
         uname,
       </if>
+      <if test="tvid != null" >
+        tvid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -125,14 +131,14 @@
       <if test="uname != null" >
         #{uname,jdbcType=VARCHAR},
       </if>
+      <if test="tvid != null" >
+        #{tvid,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.wq.model.UserComments" >
     update t_user_comments
     <set >
-      <if test="contentId != null" >
-        content_id = #{contentId,jdbcType=VARCHAR},
-      </if>
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
@@ -166,13 +172,16 @@
       <if test="uname != null" >
         uname = #{uname,jdbcType=VARCHAR},
       </if>
+      <if test="tvid != null" >
+        tvid = #{tvid,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
+      and content_id = #{contentId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wq.model.UserComments" >
     update t_user_comments
-    set content_id = #{contentId,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
+    set type = #{type,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       add_time = #{addTime,jdbcType=INTEGER},
@@ -182,7 +191,9 @@
       star_info = #{starInfo,jdbcType=VARCHAR},
       uid = #{uid,jdbcType=VARCHAR},
       suid = #{suid,jdbcType=VARCHAR},
-      uname = #{uname,jdbcType=VARCHAR}
+      uname = #{uname,jdbcType=VARCHAR},
+      tvid = #{tvid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
+      and content_id = #{contentId,jdbcType=VARCHAR}
   </update>
 </mapper>

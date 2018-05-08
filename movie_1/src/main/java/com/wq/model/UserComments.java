@@ -32,12 +32,34 @@ public class UserComments {
     
     private UserInfo userInfo;
     
-    @Override
+    private ResourceInfo resourceInfo;
+    
+    private String tvid;
+
+
+	@Override
 	public String toString() {
 		return "UserComments [id=" + id + ", contentId=" + contentId + ", type=" + type + ", title=" + title
 				+ ", content=" + content + ", addTime=" + addTime + ", hot=" + hot + ", playtime=" + playtime
 				+ ", keywords=" + keywords + ", starInfo=" + starInfo + ", uid=" + uid + ", suid=" + suid + ", uname="
 				+ uname + ", userInfo=" + userInfo + "]";
+	}
+	
+	public String getTvid() {
+		return tvid;
+	}
+	
+	public void setTvid(String tvid) {
+		this.tvid = tvid;
+	}
+	
+	public ResourceInfo getResourceInfo() {
+		return resourceInfo;
+	}
+	
+	public void setResourceInfo(ResourceInfo resourceInfo) {
+		this.resourceInfo = resourceInfo;
+		this.tvid = resourceInfo.getTvid();
 	}
 
 	public UserInfo getUserInfo() {
