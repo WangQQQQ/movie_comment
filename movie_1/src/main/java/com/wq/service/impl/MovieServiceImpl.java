@@ -1,5 +1,7 @@
 package com.wq.service.impl;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,6 @@ import com.wq.service.MovieService;
  */
 @Service(value = "movieService")
 public class MovieServiceImpl implements MovieService {
-
 	
 	@Autowired
 	MovieDescMapper movieDescMapper;
@@ -20,6 +21,11 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public int addMovieDesc(MovieDesc movie) {
 		return movieDescMapper.insert(movie);
+	}
+
+	@Override
+	public Set<String> selectAllTvid() {
+		return movieDescMapper.selectAllTvid();
 	}
 
 }

@@ -20,6 +20,12 @@
     where id = #{id,jdbcType=INTEGER}
       and movie_name = #{movieName,jdbcType=VARCHAR}
   </select>
+  <select id="selectAllTvid" resultType="java.lang.String" >
+    select 
+    movie_tvid 
+    from t_movie_desc
+    where 1=1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="com.wq.model.MovieDescKey" >
     delete from t_movie_desc
     where id = #{id,jdbcType=INTEGER}

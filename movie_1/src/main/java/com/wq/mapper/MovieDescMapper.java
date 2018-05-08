@@ -1,5 +1,7 @@
 package com.wq.mapper;
 
+import java.util.Set;
+
 import com.wq.model.MovieDesc;
 import com.wq.model.MovieDescKey;
 
@@ -18,4 +20,6 @@ public interface MovieDescMapper {
     int updateByPrimaryKeySelective(MovieDesc record);
 
     int updateByPrimaryKey(MovieDesc record);
+    
+    Set<String> selectAllTvid();
 }

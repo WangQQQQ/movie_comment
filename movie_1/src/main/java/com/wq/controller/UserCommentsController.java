@@ -1,5 +1,6 @@
 package com.wq.controller;
 
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -8,13 +9,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wq.processor.CommentsCollectProcess;
+import com.wq.service.CommentsCollectService;
+import com.wq.service.MovieService;
 
 @Controller
 @RequestMapping(value = "/commentsController")
@@ -26,13 +28,21 @@ public class UserCommentsController {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	
+	@Autowired
+	private CommentsCollectService commentsCollectService;
+	
+	@Autowired
+	private MovieService movieService;
+	
 	@RequestMapping(value = "/collectAll")
 	@ResponseBody
 	public String commentsCollect() throws Exception {
-		Future f = es.submit(
-				new CommentsCollectProcess("761013000", 2, sqlSessionTemplate));
-		int rowCount = (int) f.get();
-		return "total insert comments: " + rowCount;
+//		Future f = es.submit(
+//				new CommentsCollectProcess("761013000", 2, sqlSessionTemplate));
+//		int rowCount = (int) f.get();
+		Set<String> allTvids = movieService.selectAllTvid();
+		logger.info("*****allTvids****** " + allTvids );
+		return "total insert comments: " + allTvids;
 	}
 
 	@RequestMapping(value = "/collectBytvid")

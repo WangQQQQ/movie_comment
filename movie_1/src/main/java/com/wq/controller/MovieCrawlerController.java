@@ -21,8 +21,8 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
  */
 @Controller
 @RequestMapping(value = "/movieDescCrawler")
-public class MovieController {
-	private static final Logger logger = LoggerFactory.getLogger(MovieController.class);
+public class MovieCrawlerController {
+	private static final Logger logger = LoggerFactory.getLogger(MovieCrawlerController.class);
 
 	@Autowired
 	private MovieService movieService;
@@ -87,15 +87,15 @@ public class MovieController {
 			controller1.addSeed("http://list.iqiyi.com/www/1/-----------2018--11-" + i + "-1-iqiyi--.html");
 		}
 		for (int i = 1; i <= 30; i++) {
-			controller1.addSeed("http://list.iqiyi.com/www/1/-----------2017--11-" + i + "-1-iqiyi--.html");
-			controller1.addSeed("http://list.iqiyi.com/www/1/-----------2016--11-" + i + "-1-iqiyi--.html");
-			controller1.addSeed("http://list.iqiyi.com/www/1/-----------2011_2015--11-" + i + "-1-iqiyi--.html");
-			controller2.addSeed("http://list.iqiyi.com/www/1/-----------2000_2010--11-" + i + "-1-iqiyi--.html");
-			controller2.addSeed("http://list.iqiyi.com/www/1/-----------1990_1999--11-" + i + "-1-iqiyi--.html");
-			controller2.addSeed("http://list.iqiyi.com/www/1/-----------1980_1989--11-" + i + "-1-iqiyi--.html");
+//			controller1.addSeed("http://list.iqiyi.com/www/1/-----------2017--11-" + i + "-1-iqiyi--.html");
+//			controller1.addSeed("http://list.iqiyi.com/www/1/-----------2016--11-" + i + "-1-iqiyi--.html");
+//			controller1.addSeed("http://list.iqiyi.com/www/1/-----------2011_2015--11-" + i + "-1-iqiyi--.html");
+//			controller2.addSeed("http://list.iqiyi.com/www/1/-----------2000_2010--11-" + i + "-1-iqiyi--.html");
+//			controller2.addSeed("http://list.iqiyi.com/www/1/-----------1990_1999--11-" + i + "-1-iqiyi--.html");
+//			controller2.addSeed("http://list.iqiyi.com/www/1/-----------1980_1989--11-" + i + "-1-iqiyi--.html");
 		}
 		for (int i = 1; i <= 16; i++) {
-			controller2.addSeed("http://list.iqiyi.com/www/1/-----------1964_1979--11-" + i + "-1-iqiyi--.html");
+//			controller2.addSeed("http://list.iqiyi.com/www/1/-----------1964_1979--11-" + i + "-1-iqiyi--.html");
 		}
 
 		/*

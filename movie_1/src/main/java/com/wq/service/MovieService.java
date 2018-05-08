@@ -1,5 +1,7 @@
 package com.wq.service;
 
+import java.util.Set;
+
 import com.wq.model.MovieDesc;
 
 /**
@@ -8,4 +10,6 @@ import com.wq.model.MovieDesc;
 public interface MovieService {
 	
 	int addMovieDesc(MovieDesc movie);
+	
+	Set<String> selectAllTvid();
 }
