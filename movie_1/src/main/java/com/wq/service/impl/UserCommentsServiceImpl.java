@@ -1,5 +1,7 @@
 package com.wq.service.impl;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ public class UserCommentsServiceImpl implements UserCommentsService {
 	UserCommentsMapper userCommentsMapper;
 	
 	@Override
-	public int addUserComments(UserComments userComments) {
+	public int addUserComments(UserComments userComments) throws SQLException {
 		return userCommentsMapper.insert(userComments);
 	}
 

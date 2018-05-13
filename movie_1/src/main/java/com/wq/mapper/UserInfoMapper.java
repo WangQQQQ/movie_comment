@@ -1,5 +1,7 @@
 package com.wq.mapper;
 
+import java.sql.SQLException;
+
 import com.wq.model.UserInfo;
 
 /**
@@ -8,7 +10,7 @@ import com.wq.model.UserInfo;
 public interface UserInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(UserInfo record);
+    int insert(UserInfo record) throws SQLException;
 
     int insertSelective(UserInfo record);
 

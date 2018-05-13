@@ -1,5 +1,7 @@
 package com.wq.service;
 
+import java.sql.SQLException;
+
 import com.wq.model.UserComments;
 
 /**
@@ -7,5 +9,5 @@ import com.wq.model.UserComments;
  */
 public interface UserCommentsService {
 	
-	int addUserComments(UserComments userComments);
+	int addUserComments(UserComments userComments) throws SQLException;
 }

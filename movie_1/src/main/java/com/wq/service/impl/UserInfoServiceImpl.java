@@ -1,5 +1,7 @@
 package com.wq.service.impl;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	UserInfoMapper userInfoMapper;
 	
 	@Override
-	public int addUserInfo(UserInfo userInfo) {
+	public int addUserInfo(UserInfo userInfo) throws SQLException {
 		return userInfoMapper.insert(userInfo);
 	}
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.wq.engine.CommentsCollectEngine;
 import com.wq.processor.CommentsCollectProcess;
 import com.wq.service.CommentsCollectService;
 import com.wq.service.MovieService;
@@ -24,33 +25,22 @@ public class UserCommentsController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserCommentsController.class);
 	ExecutorService es = Executors.newSingleThreadExecutor();
-
-	@Autowired
-	private SqlSessionTemplate sqlSessionTemplate;
 	
 	@Autowired
-	private CommentsCollectService commentsCollectService;
+	private CommentsCollectEngine commentsCollectEngine;
 	
-	@Autowired
-	private MovieService movieService;
 	
 	@RequestMapping(value = "/collectAll")
 	@ResponseBody
 	public String commentsCollect() throws Exception {
-//		Future f = es.submit(
-//				new CommentsCollectProcess("761013000", 2, sqlSessionTemplate));
-//		int rowCount = (int) f.get();
-		Set<String> allTvids = movieService.selectAllTvid();
-		logger.info("*****allTvids****** " + allTvids );
-		return "total insert comments: " + allTvids;
+		int rowCounts = commentsCollectEngine.CollectCommentsAll();
+		return "total insert comments: " + rowCounts;
 	}
 
 	@RequestMapping(value = "/collectBytvid")
 	@ResponseBody
 	public String commentsCollectBytvid(@RequestParam String tvid) throws Exception {
-		Future f = es
-				.submit(new CommentsCollectProcess(tvid, 1, sqlSessionTemplate));
-		int rowCount = (int) f.get();
-		return "total insert comments: " + rowCount;
+		int rowCounts = commentsCollectEngine.CollectCommentsById(tvid);
+		return "total insert comments: " + rowCounts;
 	}
 }

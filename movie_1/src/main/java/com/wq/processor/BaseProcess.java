@@ -9,17 +9,14 @@ public abstract class BaseProcess{
 	//aiqiyi side movie id
 	protected String tvid;
 	
-	protected int pageCount;
-	
 	protected SqlSessionTemplate sqlSessionTemplate;
 	
-	public BaseProcess(String tvid, int pageCount, SqlSessionTemplate sqlSessionTemplate) {
+	public BaseProcess(String tvid, SqlSessionTemplate sqlSessionTemplate) {
 		this.tvid=tvid;
-		this.pageCount=pageCount;
 	}
 	protected abstract void init();
 	
-	protected abstract void process();
+	protected abstract String process(HttpURLConnection urlConnList);
 	
 	protected abstract void finish();
 }
