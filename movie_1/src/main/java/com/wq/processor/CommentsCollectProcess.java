@@ -29,10 +29,6 @@ import com.wq.model.UserComments;
 public class CommentsCollectProcess extends BaseProcess implements Callable<Integer> {
 	private static final Logger logger = LoggerFactory.getLogger(CommentsCollectProcess.class);
 
-	private List<HttpURLConnection> urlConnList;
-	
-	private List<HttpURLConnection> errorConnList;
-
 	private int rowCount = 0;
 	
 	private int commentsCount = 200;
@@ -64,8 +60,6 @@ public class CommentsCollectProcess extends BaseProcess implements Callable<Inte
 
 	@Override
 	protected void init() {
-		urlConnList = new ArrayList<HttpURLConnection>();
-		errorConnList = new ArrayList<HttpURLConnection>();
 		userComments = new ArrayList<UserComments>();
 		session = sqlSessionTemplate.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
 
@@ -91,7 +85,6 @@ public class CommentsCollectProcess extends BaseProcess implements Callable<Inte
 				}
 			}
 			
-			logger.info("urlConnList ready, size : " + urlConnList.size());
 		} catch (Exception e) {
 			logger.error("error while init get_video_comments url connection: " + e.getMessage());
 			e.printStackTrace();
@@ -195,8 +188,6 @@ public class CommentsCollectProcess extends BaseProcess implements Callable<Inte
 							if ((rowCount > 0 && rowCount % 1000 == 0) || rowCount == commentsCount) {
 								session.commit();
 							}
-//							userCommentsService.addUserComments(userCmomment);
-//							userInfoService.addUserInfo(userCmomment.getUserInfo());
 						}
 					}
 					reader.close();
@@ -214,7 +205,6 @@ public class CommentsCollectProcess extends BaseProcess implements Callable<Inte
 
 	@Override
 	protected void finish() {
-		urlConnList = null;
 		userComments = null;
 		session = null;
 		

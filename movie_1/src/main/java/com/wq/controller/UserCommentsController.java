@@ -1,11 +1,8 @@
 package com.wq.controller;
 
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
-import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wq.engine.CommentsCollectEngine;
-import com.wq.processor.CommentsCollectProcess;
-import com.wq.service.CommentsCollectService;
-import com.wq.service.MovieService;
 
 @Controller
 @RequestMapping(value = "/commentsController")
